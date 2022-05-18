@@ -98,6 +98,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
 
   setup(props, { emit }) {
+    // 双向绑定的是拷贝后的数据 -> 并不能双向绑定modelValue
     const formData = ref({ ...props.modelValue })
 
     // watch监听formData数据发生改变 传给user

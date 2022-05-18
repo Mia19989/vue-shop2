@@ -32,16 +32,18 @@ export default defineComponent({
     HccForm
   },
 
-  setup() {
+  setup(props) {
     // 表单数据
-    // 双向绑定的数据是对象 建议用ref 简单的数据类型可以直接双向绑定
-    const formData = ref({
-      id: '',
-      name: '',
-      password: '',
-      sport: '',
-      createTime: ''
-    })
+    // 优化1: formData属性动态决定 不应该写死 (双向绑定的属性应该 由配置文件里的field决定)
+    const formItems = props.searchFromConfig.formItems ?? []
+    const formOriginData: any = {}
+    for (const item of formItems) {
+      // 初始化是空字符串
+      formOriginData[item.field] = ''
+    }
+    // ref双向绑定 (双向绑定的数据是对象 建议用ref 简单的数据类型可以直接双向绑定)
+    const formData = ref(formOriginData)
+
     return {
       formData
     }
