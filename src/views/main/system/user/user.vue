@@ -1,15 +1,20 @@
 <template>
   <div class="user">
-    <page-search :searchFromConfig="searchFromConfig"></page-search>
+    <page-search
+      :searchFromConfig="searchFromConfig"
+      @queryBtnClick="handleQueryClick"
+      @resetBtnClick="handleResetClick"
+    ></page-search>
     <page-content
       :contentTableConfig="contentTableConfig"
       pageName="users"
+      ref="pageContentRef"
     ></page-content>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
@@ -17,19 +22,27 @@ import PageContent from '@/components/page-content'
 import { searchFromConfig } from './config/search.config'
 import { contentTableConfig } from './config/content.config'
 
+import { usePageSearch } from '@/hooks/usePageSearch'
+
 export default defineComponent({
-  name: 'user',
+  name: 'users',
   components: {
     PageSearch,
     PageContent
   },
 
   setup() {
+    // 方法封装到hooks
+    const [pageContentRef, handleQueryClick, handleResetClick] = usePageSearch()
+
     return {
       // 表单属性配置
       searchFromConfig,
       // table表格属性配置
-      contentTableConfig
+      contentTableConfig,
+      pageContentRef,
+      handleQueryClick,
+      handleResetClick
     }
   }
 })

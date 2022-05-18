@@ -61,15 +61,23 @@ export default defineComponent({
   setup(props) {
     // 结合vuex 发送数据请求
     const store = useStore()
-    // 发送请求
-    store.dispatch('system/getPageListAction', {
-      pageName: props.pageName,
-      // pageUrl: '/users/list',
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
+
+    // page-search (中间组价调用) page-content
+    const getPageData = (queryInfo: any = {}) => {
+      // 发送请求
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName,
+        // pageUrl: '/users/list',
+        queryInfo: {
+          offset: 0,
+          size: 10,
+          ...queryInfo
+        }
+      })
+    }
+
+    // setup() 最初调用一次
+    getPageData()
 
     // 保存请求获取到的数据
     // 用户列表
@@ -88,7 +96,8 @@ export default defineComponent({
     return {
       dataList,
       dataCount,
-      selectionChange
+      selectionChange,
+      getPageData
     }
   }
 })

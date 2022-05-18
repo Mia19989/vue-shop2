@@ -15,29 +15,35 @@ export const searchFromConfig: IFormConfig = {
       placeholder: '请填写用户名'
     },
     {
-      field: 'password',
-      type: 'password',
-      label: '密码',
-      placeholder: '请填写密码'
+      field: 'realname',
+      type: 'input',
+      label: '真实姓名',
+      placeholder: '请填写真实姓名'
     },
     {
-      field: 'sport',
+      field: 'cellphone',
+      type: 'input',
+      label: '手机号',
+      placeholder: '请填写手机号'
+    },
+    {
+      field: 'enable',
       type: 'select',
-      label: '喜欢的运动',
-      placeholder: '请选择喜欢的运动',
+      label: '用户状态',
+      placeholder: '请选择用户状态',
       options: [
         {
-          title: '篮球',
-          value: 'basketball'
+          title: '启用',
+          value: '1'
         },
         {
-          title: '足球',
-          value: 'football'
+          title: '禁用',
+          value: '0'
         }
       ]
     },
     {
-      field: 'createTime',
+      field: 'createAt',
       type: 'datepicker',
       label: '创建的时间',
       // placeholder: '请选择创建的时间范围'

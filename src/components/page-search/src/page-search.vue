@@ -9,7 +9,9 @@
 
       <template #footer>
         <div class="footer-btns">
-          <el-button type="primary" icon="Search">搜索</el-button>
+          <el-button type="primary" icon="Search" @click="handleQueryClick"
+            >搜索</el-button
+          >
           <el-button type="primary" icon="Edit" @click="handleResetClick"
             >重置</el-button
           >
@@ -34,7 +36,11 @@ export default defineComponent({
     HccForm
   },
 
-  setup(props) {
+  // 与user组件之间传值
+  // 搜索 重置点击事件
+  emits: ['queryBtnClick', 'resetBtnClick'],
+
+  setup(props, { emit }) {
     // 表单数据
     // 优化1: formData属性动态决定 不应该写死 (双向绑定的属性应该 由配置文件里的field决定)
     const formItems = props.searchFromConfig.formItems ?? []
@@ -54,11 +60,20 @@ export default defineComponent({
       for (const item of formItems) {
         formData.value[item.field] = formOriginData[item.field]
       }
+      emit('resetBtnClick')
+    }
+
+    // 监听点击搜索事件
+    const handleQueryClick = () => {
+      console.log('点击了搜索')
+      // formData中元素 作为请求参数
+      emit('queryBtnClick', formData.value)
     }
 
     return {
       formData,
-      handleResetClick
+      handleResetClick,
+      handleQueryClick
     }
   }
 })
