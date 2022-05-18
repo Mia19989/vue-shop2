@@ -10,7 +10,9 @@
       <template #footer>
         <div class="footer-btns">
           <el-button type="primary" icon="Search">搜索</el-button>
-          <el-button type="primary" icon="Edit">重置</el-button>
+          <el-button type="primary" icon="Edit" @click="handleResetClick"
+            >重置</el-button
+          >
         </div>
       </template>
     </hcc-form>
@@ -44,8 +46,19 @@ export default defineComponent({
     // ref双向绑定 (双向绑定的数据是对象 建议用ref 简单的数据类型可以直接双向绑定)
     const formData = ref(formOriginData)
 
+    // 监听点击重置事件
+    const handleResetClick = () => {
+      // formData中的每个元素 赋初始值
+      // 用 for of 的话 是不是有额外开销了
+      // 先是复制了一下formItems中的每个元素 再去查找操作？
+      for (const item of formItems) {
+        formData.value[item.field] = formOriginData[item.field]
+      }
+    }
+
     return {
-      formData
+      formData,
+      handleResetClick
     }
   }
 })
