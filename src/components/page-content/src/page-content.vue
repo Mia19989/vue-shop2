@@ -1,7 +1,7 @@
 <template>
   <div class="page-content">
     <hcc-table
-      :listData="userList"
+      :listData="dataList"
       v-bind="contentTableConfig"
       @selectionChange="selectionChange"
     >
@@ -51,15 +51,20 @@ export default defineComponent({
     contentTableConfig: {
       type: Object,
       required: true
+    },
+    pageName: {
+      type: String,
+      required: true
     }
   },
 
-  setup() {
+  setup(props) {
     // 结合vuex 发送数据请求
     const store = useStore()
     // 发送请求
     store.dispatch('system/getPageListAction', {
-      pageUrl: '/users/list',
+      pageName: props.pageName,
+      // pageUrl: '/users/list',
       queryInfo: {
         offset: 0,
         size: 10
@@ -68,17 +73,21 @@ export default defineComponent({
 
     // 保存请求获取到的数据
     // 用户列表
-    const userList = computed(() => store.state.system.userList)
+    const dataList = computed(() =>
+      store.getters[`system/pageListData`](props.pageName)
+    )
     // 用户数量 -> 分页会用到
-    const userCount = computed(() => store.state.system.userCount)
+    const dataCount = computed(() =>
+      store.getters[`system/pageCountData`](props.pageName)
+    )
 
     // 处理table组件多选事件 传过来的数据
     const selectionChange = (value: any) => {
       console.log(value)
     }
     return {
-      userList,
-      userCount,
+      dataList,
+      dataCount,
       selectionChange
     }
   }

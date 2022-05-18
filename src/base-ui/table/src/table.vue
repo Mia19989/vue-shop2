@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent } from 'vue'
 export default defineComponent({
   props: {
     // 列表标题
@@ -135,7 +135,7 @@ export default defineComponent({
   margin-top: 15px;
 
   .el-pagination {
-    text-align: right;
+    // text-align: right;
   }
 }
 </style>
