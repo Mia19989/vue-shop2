@@ -10,9 +10,9 @@ const systemModule: Module<ISystemState, IRootState> = {
   state() {
     return {
       // 用户列表
-      userList: [],
+      usersList: [],
       // 用户数量
-      userCount: 0,
+      usersCount: 0,
       // 角色列表
       roleList: [],
       // 角色数量
@@ -21,12 +21,12 @@ const systemModule: Module<ISystemState, IRootState> = {
   },
   mutations: {
     // state里的userList userCount数据发生改变
-    changeUserList(state, userList: any[]) {
-      state.userList = userList
+    changeUsersList(state, userList: any[]) {
+      state.usersList = userList
     },
 
-    changeUserCount(state, userCount: number) {
-      state.userCount = userCount
+    changeUsersCount(state, userCount: number) {
+      state.usersCount = userCount
     },
 
     changeRoleList(state, list: any[]) {
@@ -41,23 +41,26 @@ const systemModule: Module<ISystemState, IRootState> = {
   getters: {
     pageListData(state) {
       return (pageName: string) => {
-        switch (pageName) {
-          case 'users':
-            return state.userList
-          case 'role':
-            return state.roleList
-        }
+        // 注意这里直接拼接不允许 -> 将state类型改成any
+        return (state as any)[`${pageName}List`]
+        // switch (pageName) {
+        //   case 'users':
+        //     return state.usersList
+        //   case 'role':
+        //     return state.roleList
+        // }
       }
     },
 
     pageCountData(state) {
       return (pageName: string) => {
-        switch (pageName) {
-          case 'users':
-            return state.userCount
-          case 'role':
-            return state.roleCount
-        }
+        return (state as any)[`${pageName}Count`]
+        // switch (pageName) {
+        //   case 'users':
+        //     return state.userCount
+        //   case 'role':
+        //     return state.roleCount
+        // }
       }
     }
   },
@@ -65,16 +68,16 @@ const systemModule: Module<ISystemState, IRootState> = {
   actions: {
     async getPageListAction({ commit }, payload: any) {
       const pageName = payload.pageName
-      let pageUrl = ''
+      const pageUrl = `/${pageName}/list`
 
-      switch (pageName) {
-        case 'users':
-          pageUrl = '/users/list'
-          break
-        case 'role':
-          pageUrl = '/role/list'
-          break
-      }
+      // switch (pageName) {
+      //   case 'users':
+      //     pageUrl = '/users/list'
+      //     break
+      //   case 'role':
+      //     pageUrl = '/role/list'
+      //     break
+      // }
       // const pageUrl = `${pageName}/list`
       // console.log(payload.pageUrl)
       // console.log(payload.queryInfo)
@@ -85,16 +88,23 @@ const systemModule: Module<ISystemState, IRootState> = {
       console.log(pageResult)
       const { list, totalCount } = pageResult.data
       // console.log(list, totalCount)
-      switch (pageName) {
-        case 'users':
-          commit('changeUserList', list)
-          commit('changeUserCount', totalCount)
-          break
-        case 'role':
-          commit('changeRoleList', list)
-          commit('changeRoleCount', totalCount)
-          break
-      }
+
+      // pageName -> 改成 首字母大写
+      const changePageName =
+        pageName.slice(0, 1).toUpperCase() + pageName.slice(1)
+
+      commit(`change${changePageName}List`, list)
+      commit(`change${changePageName}Count`, totalCount)
+      // switch (pageName) {
+      //   case 'users':
+      //     commit('changeUserList', list)
+      //     commit('changeUserCount', totalCount)
+      //     break
+      //   case 'role':
+      //     commit('changeRoleList', list)
+      //     commit('changeRoleCount', totalCount)
+      //     break
+      // }
     }
   }
 }
