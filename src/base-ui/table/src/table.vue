@@ -18,6 +18,7 @@
       border
       style="width: 100%"
       @selection-change="handleSelectionChange"
+      v-bind="childrenProps"
     >
       <!-- 多选 -->
       <el-table-column
@@ -49,7 +50,7 @@
     </el-table>
 
     <!-- 底部 -->
-    <div class="footer">
+    <div class="footer" v-if="showFooter">
       <slot name="footer">
         <el-pagination
           :current-page="page.currentPage"
@@ -115,6 +116,17 @@ export default defineComponent({
         // 页码
         currentPage: 0
       })
+    },
+    // 树形数据
+    childrenProps: {
+      type: Object,
+      default: () => ({})
+    },
+    // 底部分页栏
+    showFooter: {
+      type: Boolean,
+      // 默认显示
+      default: true
     }
   },
 
