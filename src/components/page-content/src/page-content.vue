@@ -2,7 +2,9 @@
   <div class="page-content">
     <hcc-table
       :listData="dataList"
+      :listCount="dataCount"
       v-bind="contentTableConfig"
+      v-model:page="pageInfo"
       @selectionChange="selectionChange"
     >
       <!-- header中的插槽 -->
@@ -38,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
 
 import HccTable from '@/base-ui/table'
@@ -62,6 +64,9 @@ export default defineComponent({
     // 结合vuex 发送数据请求
     const store = useStore()
 
+    // 双向绑定pageInfo
+    const pageInfo = ref({ pageSize: 10, currentPage: 0 })
+
     // page-search (中间组价调用) page-content
     const getPageData = (queryInfo: any = {}) => {
       // 发送请求
@@ -69,15 +74,17 @@ export default defineComponent({
         pageName: props.pageName,
         // pageUrl: '/users/list',
         queryInfo: {
-          offset: 0,
-          size: 10,
+          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          size: pageInfo.value.pageSize,
           ...queryInfo
         }
       })
     }
-
     // setup() 最初调用一次
     getPageData()
+
+    // 监听pageInfo的改变 重新发起请求
+    watch(pageInfo, () => getPageData())
 
     // 保存请求获取到的数据
     // 用户列表
@@ -97,7 +104,8 @@ export default defineComponent({
       dataList,
       dataCount,
       selectionChange,
-      getPageData
+      getPageData,
+      pageInfo
     }
   }
 })

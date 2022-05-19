@@ -52,14 +52,14 @@
     <div class="footer">
       <slot name="footer">
         <el-pagination
-          v-model:currentPage="currentPage4"
-          v-model:page-size="pageSize4"
-          :page-sizes="[100, 200, 300, 400]"
+          :current-page="page.currentPage"
+          :page-size="page.pageSize"
+          :page-sizes="[10, 20, 30]"
           :small="small"
           :disabled="disabled"
           :background="background"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
+          :total="listCount"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
@@ -82,6 +82,11 @@ export default defineComponent({
       type: Array,
       required: true
     },
+    // 表格数据的数量
+    listCount: {
+      type: Number,
+      default: 0
+    },
     // 列表属性配置
     propList: {
       type: Array,
@@ -96,18 +101,46 @@ export default defineComponent({
     showSelectColumn: {
       type: Boolean,
       default: false
+    },
+    // 双向绑定pageInfo
+    // 父组件 v-model:page 重命名绑定的是page 如果不重命名默认绑定在modelValue上
+    // 只是给pageInfo绑定 不是整个table 建议不要绑定在modelValue上
+    // 默认向父组件传值的时候 updata:modelValue 修改之后就是 updata:page
+    page: {
+      type: Object,
+      // 注意是object类型 默认值设置要用箭头函数
+      default: () => ({
+        // 页面大小
+        pageSize: 10,
+        // 页码
+        currentPage: 0
+      })
     }
   },
 
-  emits: ['selectionChange'],
+  emits: ['selectionChange', 'update:page'],
   setup(props, { emit }) {
     // 多选事件监听
     const handleSelectionChange = (value: any) => {
       // console.log(value)
       emit('selectionChange', value)
     }
+
+    // 监听pageSize页面大小的改变
+    const handleSizeChange = (pageSize: number) => {
+      // 传给父组件 pageSize改变后的值
+      emit('update:page', { ...props.page, pageSize })
+    }
+
+    // 监听currentPage页码的改变
+    const handleCurrentChange = (currentPage: number) => {
+      emit('update:page', { ...props.page, currentPage })
+    }
+
     return {
-      handleSelectionChange
+      handleSelectionChange,
+      handleSizeChange,
+      handleCurrentChange
     }
   }
 })
