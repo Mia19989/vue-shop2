@@ -109,7 +109,7 @@ const systemModule: Module<ISystemState, IRootState> = {
       // 发送请求
       const pageResult = await getPageLsitData(pageUrl, payload.queryInfo)
 
-      console.log(pageResult)
+      // console.log(pageResult)
       const { list, totalCount } = pageResult.data
       // console.log(list, totalCount)
 

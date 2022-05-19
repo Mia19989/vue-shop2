@@ -77,4 +77,22 @@ export function pathMapToMenu(
   }
 }
 
+// 从菜单获取按钮权限
+export function mapMenuToPermissions(userMenus: any[]) {
+  const permissions: string[] = []
+  // 递归判断 type === 3 中的按钮权限
+  const rucurseGetPermission = (menus: any[]) => {
+    for (const menu of menus) {
+      if (menu.type === 1 || menu.type === 2) {
+        rucurseGetPermission(menu.children ?? [])
+      } else if (menu.type === 3) {
+        permissions.push(menu.permission)
+      }
+    }
+  }
+
+  rucurseGetPermission(userMenus)
+  return permissions
+}
+
 export { firstMenu }

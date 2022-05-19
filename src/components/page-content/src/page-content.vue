@@ -9,7 +9,7 @@
     >
       <!-- header中的插槽 -->
       <template #headerHandler>
-        <el-button type="primary">新建用户</el-button>
+        <el-button type="primary" v-if="isCreate">新建用户</el-button>
         <!-- <el-button icon="Loading" type="success"></el-button> -->
       </template>
 
@@ -22,8 +22,12 @@
       </template>
       <template #handler>
         <div class="handler-btns">
-          <el-button size="small" type="primary" icon="Edit">编辑</el-button>
-          <el-button size="small" type="danger" icon="Delete">删除</el-button>
+          <el-button v-if="isUpdate" size="small" type="primary" icon="Edit"
+            >编辑</el-button
+          >
+          <el-button v-if="isDelete" size="small" type="danger" icon="Delete"
+            >删除</el-button
+          >
         </div>
       </template>
 
@@ -46,6 +50,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
+import { usePermission } from '@/hooks/usePermission'
 
 import HccTable from '@/base-ui/table'
 export default defineComponent({
@@ -68,11 +73,23 @@ export default defineComponent({
     // 结合vuex 发送数据请求
     const store = useStore()
 
+    // 获取操作权限
+    // 创建
+    const isCreate = usePermission(props.pageName, 'create')
+    // 删除
+    const isDelete = usePermission(props.pageName, 'delete')
+    // 编辑
+    const isUpdate = usePermission(props.pageName, 'update')
+    // 请求
+    const isQuery = usePermission(props.pageName, 'query')
+
     // 双向绑定pageInfo
     const pageInfo = ref({ pageSize: 10, currentPage: 0 })
 
     // page-search (中间组价调用) page-content
     const getPageData = (queryInfo: any = {}) => {
+      // 没有请求的权限 直接返回
+      if (!isQuery) return
       // 发送请求
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
@@ -121,6 +138,10 @@ export default defineComponent({
       dataCount,
       pageInfo,
       otherPropSlots,
+      isCreate,
+      isDelete,
+      isUpdate,
+      isQuery,
       selectionChange,
       getPageData
     }
