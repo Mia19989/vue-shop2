@@ -37,7 +37,7 @@
 
       <template v-for="propItem in propList" :key="propItem.prop">
         <!-- v-bind 绑定属性 -->
-        <el-table-column v-bind="propItem" align="center">
+        <el-table-column v-bind="propItem" align="center" show-overflow-tooltip>
           <!-- 作用域插槽 -> 处理需要渲染按钮等的数据 -->
           <template #default="scope">
             <slot :name="propItem.slotName" :row="scope.row">{{
@@ -147,6 +147,14 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+.el-table {
+  & ::v-deep th.el-table__cell,
+  ::v-deep td.el-table__cell {
+    // 设置position 使得 子元素不与其产生新的层叠关系
+    position: static;
+  }
+}
+
 .header {
   display: flex;
   height: 45px;

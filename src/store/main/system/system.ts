@@ -16,7 +16,11 @@ const systemModule: Module<ISystemState, IRootState> = {
       // 角色列表
       roleList: [],
       // 角色数量
-      roleCount: 0
+      roleCount: 0,
+      // 商品列表
+      goodsList: [],
+      // 商品数量
+      goodsCount: 0
     }
   },
   mutations: {
@@ -35,6 +39,14 @@ const systemModule: Module<ISystemState, IRootState> = {
 
     changeRoleCount(state, count: number) {
       state.roleCount = count
+    },
+
+    changeGoodsList(state, list: any[]) {
+      state.goodsList = list
+    },
+
+    changeGoodsCount(state, count: number) {
+      state.goodsCount = count
     }
   },
 

@@ -9,7 +9,17 @@
       :contentTableConfig="contentTableConfig"
       pageName="users"
       ref="pageContentRef"
-    ></page-content>
+    >
+      <template #status="scope">
+        <!-- 从这一行中的数据获取enable -->
+        <el-button
+          :type="scope.row.enable ? 'success' : 'danger'"
+          size="small"
+          plain
+          >{{ scope.row.enable ? '启用' : '禁用' }}</el-button
+        >
+      </template>
+    </page-content>
   </div>
 </template>
 

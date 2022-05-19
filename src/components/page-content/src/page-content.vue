@@ -14,15 +14,6 @@
       </template>
 
       <!-- 列中的插槽 -->
-      <template #status="scope">
-        <!-- 从这一行中的数据获取enable -->
-        <el-button
-          :type="scope.row.enable ? 'success' : 'danger'"
-          size="small"
-          plain
-          >{{ scope.row.enable ? '启用' : '禁用' }}</el-button
-        >
-      </template>
       <template #createAt="scope">
         <span>{{ $filters.formatTime(scope.row.createAt) }}</span>
       </template>
@@ -34,6 +25,19 @@
           <el-button size="small" type="primary" icon="Edit">编辑</el-button>
           <el-button size="small" type="danger" icon="Delete">删除</el-button>
         </div>
+      </template>
+
+      <!-- '跨组件的' 动态插槽 -->
+      <template
+        v-for="item in otherPropSlots"
+        :key="item.prop"
+        #[item.slotName]="scope"
+      >
+        <!-- 判断存在slotName -->
+        <template v-if="item.slotName">
+          <!-- :row="scope.row" 传这一行的数据 -->
+          <slot :name="item.slotName" :row="scope.row"></slot>
+        </template>
       </template>
     </hcc-table>
   </div>
@@ -100,12 +104,25 @@ export default defineComponent({
     const selectionChange = (value: any) => {
       console.log(value)
     }
+
+    // 过滤得到 有slotName且需要跨组件的 动态插槽
+    const otherPropSlots = props.contentTableConfig?.propList.filter(
+      (item: any) => {
+        // 过滤掉 常用插槽
+        if (item.slotName === 'createAt') return false
+        if (item.slotName === 'updateAt') return false
+        if (item.slotName === 'handler') return false
+        return true
+      }
+    )
+
     return {
       dataList,
       dataCount,
+      pageInfo,
+      otherPropSlots,
       selectionChange,
-      getPageData,
-      pageInfo
+      getPageData
     }
   }
 })
