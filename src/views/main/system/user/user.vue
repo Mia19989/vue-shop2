@@ -20,6 +20,8 @@
         >
       </template>
     </page-content>
+
+    <page-model :modelConfig="modelConfig"></page-model>
   </div>
 </template>
 
@@ -28,9 +30,11 @@ import { defineComponent, ref } from 'vue'
 
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
+import PageModel from '@/components/page-model'
 
 import { searchFromConfig } from './config/search.config'
 import { contentTableConfig } from './config/content.config'
+import { modelConfig } from './config/model.config'
 
 import { usePageSearch } from '@/hooks/usePageSearch'
 
@@ -38,7 +42,8 @@ export default defineComponent({
   name: 'users',
   components: {
     PageSearch,
-    PageContent
+    PageContent,
+    PageModel
   },
 
   setup() {
@@ -52,7 +57,8 @@ export default defineComponent({
       contentTableConfig,
       pageContentRef,
       handleQueryClick,
-      handleResetClick
+      handleResetClick,
+      modelConfig
     }
   }
 })

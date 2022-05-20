@@ -41,7 +41,8 @@ import {
   ElTable,
   ElTableColumn,
   ElPagination,
-  ElImage
+  ElImage,
+  ElDialog
 } from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'normalize.css'
@@ -85,7 +86,8 @@ const components = [
   ElTable,
   ElTableColumn,
   ElPagination,
-  ElImage
+  ElImage,
+  ElDialog
 ]
 
 const app = createApp(App)
