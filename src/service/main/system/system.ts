@@ -9,3 +9,11 @@ export function getPageLsitData(url: string, queryInfo: any) {
     data: queryInfo
   })
 }
+
+// delete请求 删除某列表数据
+// url
+export function deletePageListData(url: string) {
+  return hccRequest.delete<IDataType>({
+    url: url
+  })
+}

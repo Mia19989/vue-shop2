@@ -20,12 +20,17 @@
       <template #updateAt="scope">
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <div class="handler-btns">
           <el-button v-if="isUpdate" size="small" type="primary" icon="Edit"
             >编辑</el-button
           >
-          <el-button v-if="isDelete" size="small" type="danger" icon="Delete"
+          <el-button
+            v-if="isDelete"
+            size="small"
+            type="danger"
+            icon="Delete"
+            @click="handleDeleteClick(scope.row)"
             >删除</el-button
           >
         </div>
@@ -83,8 +88,8 @@ export default defineComponent({
     // 请求
     const isQuery = usePermission(props.pageName, 'query')
 
-    // 双向绑定pageInfo
-    const pageInfo = ref({ pageSize: 10, currentPage: 0 })
+    // 双向绑定pageInfo currentPage默认从第一页开始
+    const pageInfo = ref({ pageSize: 10, currentPage: 1 })
 
     // page-search (中间组价调用) page-content
     const getPageData = (queryInfo: any = {}) => {
@@ -95,7 +100,7 @@ export default defineComponent({
         pageName: props.pageName,
         // pageUrl: '/users/list',
         queryInfo: {
-          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
           size: pageInfo.value.pageSize,
           ...queryInfo
         }
@@ -122,7 +127,8 @@ export default defineComponent({
       console.log(value)
     }
 
-    // 过滤得到 有slotName且需要跨组件的 动态插槽
+    // 获取其他的动态插槽名称
+    // 过滤得到有slotName且需要跨组件的 动态插槽
     const otherPropSlots = props.contentTableConfig?.propList.filter(
       (item: any) => {
         // 过滤掉 常用插槽
@@ -132,6 +138,15 @@ export default defineComponent({
         return true
       }
     )
+
+    // 监听删除事件
+    const handleDeleteClick = (item: any) => {
+      // console.log(item)
+      store.dispatch('system/deletePageListAction', {
+        pageName: props.pageName,
+        id: item.id
+      })
+    }
 
     return {
       dataList,
@@ -143,7 +158,8 @@ export default defineComponent({
       isUpdate,
       isQuery,
       selectionChange,
-      getPageData
+      getPageData,
+      handleDeleteClick
     }
   }
 })

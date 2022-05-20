@@ -110,8 +110,8 @@ export default defineComponent({
       default: () => ({
         // 页面大小
         pageSize: 10,
-        // 页码
-        currentPage: 0
+        // 页码 默认是第一页
+        currentPage: 1
       })
     },
     // 树形数据

@@ -2,7 +2,10 @@
 import { Module } from 'vuex'
 import { ISystemState } from './types'
 import { IRootState } from '@/store/type'
-import { getPageLsitData } from '@/service/main/system/system'
+import {
+  getPageLsitData,
+  deletePageListData
+} from '@/service/main/system/system'
 
 const systemModule: Module<ISystemState, IRootState> = {
   // 作用域！
@@ -90,6 +93,7 @@ const systemModule: Module<ISystemState, IRootState> = {
   },
 
   actions: {
+    // 请求获取数据
     async getPageListAction({ commit }, payload: any) {
       const pageName = payload.pageName
       const pageUrl = `/${pageName}/list`
@@ -129,6 +133,26 @@ const systemModule: Module<ISystemState, IRootState> = {
       //     commit('changeRoleCount', totalCount)
       //     break
       // }
+    },
+
+    // 请求删除数据
+    async deletePageListAction(context, payload: any) {
+      const { pageName, id } = payload
+      const pageUrl = `${pageName}/${id}`
+
+      // 1. 发送删除数据请求
+      // url -> users/id
+      const deletePageListResult = await deletePageListData(pageUrl)
+      console.log('删除成功返回的数据: ', deletePageListResult)
+
+      // 2. 重新请求数据
+      this.dispatch('system/getPageListAction', {
+        pageName: pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
     }
   }
 }
