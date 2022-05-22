@@ -9,6 +9,9 @@ export function usePageModel() {
 
   // 点击新建 编辑按钮 显示对话框
   const handleNewClick = () => {
+    // 对话框destroy-on-close属性 销毁的是对话框 编辑操作中的defaultInfo的值并没有销毁
+    // 手动清空defaultInfo
+    defaultInfo.value = {}
     // 显示page-model中的对话框
     if (pageModelRef.value) {
       pageModelRef.value.dialogVisible = true
