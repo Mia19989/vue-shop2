@@ -21,6 +21,7 @@ module.exports = {
     'vue/valid-v-for': 'off',
     'vue/no-unused-vars': 'off',
     '@typescript-eslint/no-var-requires': 0,
-    'vue/no-mutating-props': 'off'
+    'vue/no-mutating-props': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off'
   }
 }

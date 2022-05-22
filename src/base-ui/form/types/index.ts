@@ -12,6 +12,8 @@ export interface IFormItem {
   otherOptions?: any
   // 双向绑定的内容区域
   field: string
+  // 这个表单项是否隐藏
+  isHidden?: boolean
 }
 
 export interface IFormConfig {

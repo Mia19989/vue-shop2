@@ -16,7 +16,8 @@ export const modelConfig = {
       field: 'password',
       type: 'password',
       label: '密码',
-      placeholder: '请输入密码'
+      placeholder: '请输入密码',
+      isHidden: false
     },
     {
       field: 'cellphone',

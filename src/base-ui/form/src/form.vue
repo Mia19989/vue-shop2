@@ -9,7 +9,11 @@
       <el-row>
         <template v-for="item in formItems" :key="item.label">
           <el-col v-bind="colLayout">
-            <el-form-item :label="item.label" :style="itemStyle">
+            <el-form-item
+              v-if="!item.isHidden"
+              :label="item.label"
+              :style="itemStyle"
+            >
               <!-- 根据formitem类型 -> 输入框类型 -->
               <template
                 v-if="item.type === 'input' || item.type === 'password'"

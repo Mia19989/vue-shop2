@@ -56,8 +56,26 @@ export default defineComponent({
   setup() {
     // 方法封装到hooks
     const [pageContentRef, handleQueryClick, handleResetClick] = usePageSearch()
+
+    // page-model相关的hook逻辑
+    // 新建 显示密码formItem
+    const newBtnCb = () => {
+      // 修改model配置里的密码的isHidden属性
+      const passwordItem = modelConfig.formItems.find(
+        (item) => item.field === 'password'
+      )
+      passwordItem!.isHidden = false
+    }
+    // 编辑 不显示formItem
+    const editBtnCb = () => {
+      const passwordItem = modelConfig.formItems.find(
+        (item) => item.field === 'password'
+      )
+      passwordItem!.isHidden = true
+    }
+
     const [pageModelRef, defaultInfo, handleNewClick, handleEditClick] =
-      usePageModel()
+      usePageModel(newBtnCb, editBtnCb)
 
     return {
       // 表单属性配置
