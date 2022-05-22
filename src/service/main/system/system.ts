@@ -3,7 +3,7 @@ import hccRequest from '../../index'
 import { IDataType } from '../../types'
 
 // post请求 获取用户列表数据
-export function getPageLsitData(url: string, queryInfo: any) {
+export function getPageListData(url: string, queryInfo: any) {
   return hccRequest.post<IDataType>({
     url: url,
     data: queryInfo

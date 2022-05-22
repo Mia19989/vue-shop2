@@ -4,6 +4,10 @@ import { ISystemState } from './main/system/types'
 export interface IRootState {
   name: string
   age: number
+  // 所有的部门
+  entireDepartment: any[]
+  // 所有的角色
+  entireRole: any[]
 }
 
 // 多个类型的封装

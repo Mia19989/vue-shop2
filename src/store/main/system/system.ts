@@ -3,7 +3,7 @@ import { Module } from 'vuex'
 import { ISystemState } from './types'
 import { IRootState } from '@/store/type'
 import {
-  getPageLsitData,
+  getPageListData,
   deletePageListData
 } from '@/service/main/system/system'
 
@@ -111,7 +111,7 @@ const systemModule: Module<ISystemState, IRootState> = {
       // console.log(payload.queryInfo)
 
       // 发送请求
-      const pageResult = await getPageLsitData(pageUrl, payload.queryInfo)
+      const pageResult = await getPageListData(pageUrl, payload.queryInfo)
 
       // console.log(pageResult)
       const { list, totalCount } = pageResult.data
