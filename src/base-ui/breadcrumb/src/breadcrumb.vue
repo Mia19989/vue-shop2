@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, ref } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { IBreadcrumb } from '../types'
 
 export default defineComponent({

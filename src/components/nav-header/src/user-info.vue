@@ -16,7 +16,7 @@
 
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>
+          <el-dropdown-item @click="handleExitClick">
             <el-icon><CircleClose /></el-icon>
             退出登录
           </el-dropdown-item>
@@ -29,16 +29,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
+import localCache from '@/utils/cache'
+import { useRouter } from 'vue-router'
 export default defineComponent({
   setup() {
     const store = useStore()
     // 返回登录用户的name
     const name = computed(() => store.state.login.userInfo.name)
+
+    // 退出登录
+    const router = useRouter()
+    const handleExitClick = () => {
+      console.log('退出登录')
+      // 删除存储的token
+      localCache.removeCache('token')
+      // 跳转main -> 没有token会跳转到login登录页
+      router.push('/main')
+    }
+
     return {
       store,
-      name
+      name,
+      handleExitClick
     }
   }
 })

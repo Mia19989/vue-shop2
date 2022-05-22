@@ -11,5 +11,6 @@ export default function formatUtcSring(
   utcString: string,
   format: string = DATE_TIME_FORMAT
 ) {
-  return dayjs.utc(utcString).format(format)
+  // utcOffset偏移8小时 utc是0时区时间
+  return dayjs.utc(utcString).utcOffset(8).format(format)
 }

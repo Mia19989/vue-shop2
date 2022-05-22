@@ -61,7 +61,8 @@ const store = createStore<IRootState>({
 // 解决刷新页面 导致vuex内的数据被清除的问题
 export function setupStore() {
   store.dispatch('login/loadLocalLogin')
-  store.dispatch('getInitialDataAction')
+  // 异步请求 可能token还未拿到 最好放在token被存储之后
+  // store.dispatch('getInitialDataAction')
 }
 
 // 封装自定义的useStore 增加了自定义的类型
