@@ -1,4 +1,5 @@
-export const modelConfig = {
+import { IFormConfig } from '@/base-ui/form'
+export const modelConfig: IFormConfig = {
   formItems: [
     {
       field: 'name',

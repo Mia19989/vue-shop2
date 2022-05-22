@@ -24,7 +24,7 @@
     </page-content>
 
     <page-model
-      :modelConfig="modelConfig"
+      :modelConfig="modelConfigRef"
       ref="pageModelRef"
       :defaultInfo="defaultInfo"
     ></page-model>
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
@@ -44,6 +44,8 @@ import { modelConfig } from './config/model.config'
 
 import { usePageSearch } from '@/hooks/usePageSearch'
 import { usePageModel } from '@/hooks/usePageModel'
+
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'users',
@@ -74,6 +76,30 @@ export default defineComponent({
       passwordItem!.isHidden = true
     }
 
+    const store = useStore()
+    // 动态添加部门和角色列表 -> computed监听vuex里的数据的改变
+    // 发生改变时 重新执行computed里的getter函数
+    // model配置文件中formItems里 department和role的options
+    const modelConfigRef = computed(() => {
+      // computed实际返回的是一个ref对象
+      const departItem = modelConfig.formItems.find(
+        (item) => item.field === 'departmentId'
+      )
+
+      const roleItem = modelConfig.formItems.find(
+        (item) => item.field === 'roleId'
+      )
+
+      departItem!.options = store.state.entireDepartment.map((item) => {
+        return { title: item.name, value: item.id }
+      })
+      roleItem!.options = store.state.entireRole.map((item) => {
+        return { title: item.name, value: item.id }
+      })
+
+      return modelConfig
+    })
+
     const [pageModelRef, defaultInfo, handleNewClick, handleEditClick] =
       usePageModel(newBtnCb, editBtnCb)
 
@@ -85,11 +111,11 @@ export default defineComponent({
       pageContentRef,
       handleQueryClick,
       handleResetClick,
-      modelConfig,
       pageModelRef,
       defaultInfo,
       handleNewClick,
-      handleEditClick
+      handleEditClick,
+      modelConfigRef
     }
   }
 })
