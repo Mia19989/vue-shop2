@@ -27,6 +27,7 @@
       :modelConfig="modelConfigRef"
       ref="pageModelRef"
       :defaultInfo="defaultInfo"
+      pageName="users"
     ></page-model>
   </div>
 </template>

@@ -4,7 +4,9 @@ import { ISystemState } from './types'
 import { IRootState } from '@/store/type'
 import {
   getPageListData,
-  deletePageListData
+  deletePageListData,
+  createPageListData,
+  editPageListData
 } from '@/service/main/system/system'
 
 const systemModule: Module<ISystemState, IRootState> = {
@@ -144,6 +146,44 @@ const systemModule: Module<ISystemState, IRootState> = {
       // url -> users/id
       const deletePageListResult = await deletePageListData(pageUrl)
       console.log('删除成功返回的数据: ', deletePageListResult)
+
+      // 2. 重新请求数据
+      this.dispatch('system/getPageListAction', {
+        pageName: pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+
+    // 创建请求
+    async createPageListAction({ dispatch }, payload: any) {
+      const { pageName, newData } = payload
+      const pageUrl = `/${pageName}`
+
+      // 1.发送创建请求
+      const createPageListResult = await createPageListData(pageUrl, newData)
+      console.log('创建成功返回的数据：', createPageListResult)
+
+      // 2. 重新请求数据
+      this.dispatch('system/getPageListAction', {
+        pageName: pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+
+    // 编辑请求
+    async editPageListAction({ dispatch }, payload: any) {
+      const { pageName, editData, id } = payload
+      const pageUrl = `/${pageName}/${id}`
+
+      // 1.发送编辑请求
+      const editPageListResult = await editPageListData(pageUrl, editData)
+      console.log('编辑成功返回的数据：', editPageListResult)
 
       // 2. 重新请求数据
       this.dispatch('system/getPageListAction', {

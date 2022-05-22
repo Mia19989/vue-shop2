@@ -17,3 +17,19 @@ export function deletePageListData(url: string) {
     url: url
   })
 }
+
+// post请求 创建新数据
+export function createPageListData(url: string, newData: any) {
+  return hccRequest.post<IDataType>({
+    url: url,
+    data: newData
+  })
+}
+
+// patch请求 编辑数据
+export function editPageListData(url: string, editData: any) {
+  return hccRequest.patch<IDataType>({
+    url: url,
+    data: editData
+  })
+}
