@@ -9,7 +9,9 @@
     >
       <!-- header中的插槽 -->
       <template #headerHandler>
-        <el-button type="primary" v-if="isCreate">新建用户</el-button>
+        <el-button type="primary" v-if="isCreate" @click="handleNewClick"
+          >新建用户</el-button
+        >
         <!-- <el-button icon="Loading" type="success"></el-button> -->
       </template>
 
@@ -22,7 +24,12 @@
       </template>
       <template #handler="scope">
         <div class="handler-btns">
-          <el-button v-if="isUpdate" size="small" type="primary" icon="Edit"
+          <el-button
+            v-if="isUpdate"
+            size="small"
+            type="primary"
+            icon="Edit"
+            @click="handleEditClick(scope.row)"
             >编辑</el-button
           >
           <el-button
@@ -74,7 +81,9 @@ export default defineComponent({
     }
   },
 
-  setup(props) {
+  emits: ['newBtnClick', 'editBtnClick'],
+
+  setup(props, { emit }) {
     // 结合vuex 发送数据请求
     const store = useStore()
 
@@ -148,6 +157,17 @@ export default defineComponent({
       })
     }
 
+    // 父组件实现具体操作
+    // 监听新建数据事件
+    const handleNewClick = () => {
+      emit('newBtnClick')
+    }
+
+    // 监听编辑数据事件
+    const handleEditClick = (item: any) => {
+      emit('editBtnClick', item)
+    }
+
     return {
       dataList,
       dataCount,
@@ -159,7 +179,9 @@ export default defineComponent({
       isQuery,
       selectionChange,
       getPageData,
-      handleDeleteClick
+      handleDeleteClick,
+      handleNewClick,
+      handleEditClick
     }
   }
 })

@@ -9,6 +9,8 @@
       :contentTableConfig="contentTableConfig"
       pageName="users"
       ref="pageContentRef"
+      @newBtnClick="handleNewClick"
+      @editBtnClick="handleEditClick"
     >
       <template #status="scope">
         <!-- 从这一行中的数据获取enable -->
@@ -21,12 +23,16 @@
       </template>
     </page-content>
 
-    <page-model :modelConfig="modelConfig"></page-model>
+    <page-model
+      :modelConfig="modelConfig"
+      ref="pageModelRef"
+      :defaultInfo="defaultInfo"
+    ></page-model>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
@@ -37,6 +43,7 @@ import { contentTableConfig } from './config/content.config'
 import { modelConfig } from './config/model.config'
 
 import { usePageSearch } from '@/hooks/usePageSearch'
+import { usePageModel } from '@/hooks/usePageModel'
 
 export default defineComponent({
   name: 'users',
@@ -49,6 +56,8 @@ export default defineComponent({
   setup() {
     // 方法封装到hooks
     const [pageContentRef, handleQueryClick, handleResetClick] = usePageSearch()
+    const [pageModelRef, defaultInfo, handleNewClick, handleEditClick] =
+      usePageModel()
 
     return {
       // 表单属性配置
@@ -58,7 +67,11 @@ export default defineComponent({
       pageContentRef,
       handleQueryClick,
       handleResetClick,
-      modelConfig
+      modelConfig,
+      pageModelRef,
+      defaultInfo,
+      handleNewClick,
+      handleEditClick
     }
   }
 })
