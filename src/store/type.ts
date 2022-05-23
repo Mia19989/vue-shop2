@@ -8,6 +8,8 @@ export interface IRootState {
   entireDepartment: any[]
   // 所有的角色
   entireRole: any[]
+  // 所有菜单
+  entireMenu: any[]
 }
 
 // 多个类型的封装

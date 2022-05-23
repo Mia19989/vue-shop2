@@ -8,6 +8,7 @@
       destroy-on-close
     >
       <hcc-form v-bind="modelConfig" v-model="formData"></hcc-form>
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
@@ -41,6 +42,10 @@ export default defineComponent({
     pageName: {
       type: String,
       required: true
+    },
+    otherInfo: {
+      type: Object,
+      default: () => ({})
     }
   },
 
@@ -73,7 +78,7 @@ export default defineComponent({
         console.log('编辑数据')
         store.dispatch('system/editPageListAction', {
           pageName: props.pageName,
-          editData: { ...formData.value },
+          editData: { ...formData.value, ...props.otherInfo },
           id: props.defaultInfo.id
         })
       } else {
@@ -81,7 +86,7 @@ export default defineComponent({
         console.log('新建数据')
         store.dispatch('system/createPageListAction', {
           pageName: props.pageName,
-          newData: { ...formData.value }
+          newData: { ...formData.value, ...props.otherInfo }
         })
       }
     }
