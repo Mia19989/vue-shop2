@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import PageModel from '@/components/page-model'
 
 // 回调函数的类型
-type CallBackFn = () => void
+type CallBackFn = (item?: any) => void
 
 export function usePageModel(newBtnCb?: CallBackFn, editBtnCb?: CallBackFn) {
   // 方便拿到page-model中的属性
@@ -27,7 +27,7 @@ export function usePageModel(newBtnCb?: CallBackFn, editBtnCb?: CallBackFn) {
   const handleEditClick = (item: any) => {
     // page-content中的内容 显示到对话框上
     defaultInfo.value = { ...item }
-    editBtnCb && editBtnCb()
+    editBtnCb && editBtnCb(item)
     if (pageModelRef.value) {
       pageModelRef.value.dialogVisible = true
     }

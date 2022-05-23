@@ -95,4 +95,24 @@ export function mapMenuToPermissions(userMenus: any[]) {
   return permissions
 }
 
+// 叶子结点
+export function mapMenuLeafKeys(menuList: any[]) {
+  const leafKeys: number[] = []
+  const recurseGetLeaf = (menuList: any[]) => {
+    for (const menu of menuList) {
+      if (menu.children) {
+        // 不是叶子结点 继续递归
+        recurseGetLeaf(menu.children)
+      } else {
+        // 添加id到叶子结点数组中
+        leafKeys.push(menu.id)
+      }
+    }
+  }
+
+  recurseGetLeaf(menuList)
+
+  return leafKeys
+}
+
 export { firstMenu }

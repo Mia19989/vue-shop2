@@ -16,6 +16,7 @@
     >
       <div class="menu-tree">
         <el-tree
+          ref="elTreeRef"
           :data="menuData"
           :props="{ children: 'children', label: 'name' }"
           show-checkbox
@@ -28,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, nextTick, ref } from 'vue'
 import PageContent from '@/components/page-content'
 import PageSearch from '@/components/page-search'
 import PageModel from '@/components/page-model'
@@ -37,7 +38,10 @@ import { contentTableConfig } from './config/content.config'
 import { searchFromConfig } from './config/search.config'
 import { modelConfig } from './config/model.config'
 
+import { ElTree } from 'element-plus'
+
 import { usePageModel } from '@/hooks/usePageModel'
+import { mapMenuLeafKeys } from '@/utils/map-menus'
 
 import { useStore } from '@/store'
 
@@ -50,8 +54,21 @@ export default defineComponent({
   },
 
   setup() {
+    // el-tree设置ref属性
+    const elTreeRef = ref<InstanceType<typeof ElTree>>()
+
+    // 编辑对话框回显tree内容
+    const editCbData = (item: any) => {
+      // 获取准备回显的叶子结点
+      const leafKeys = mapMenuLeafKeys(item.menuList)
+      // 注意调用nextTick 因为elTreeRef在编辑对话框弹出的时候，还没来得及绑定tree树形控件
+      nextTick(() => {
+        elTreeRef.value?.setCheckedKeys(leafKeys)
+        console.log(leafKeys)
+      })
+    }
     const [pageModelRef, defaultInfo, handleNewClick, handleEditClick] =
-      usePageModel()
+      usePageModel(undefined, editCbData)
 
     const store = useStore()
     const menuData = computed(() => store.state.entireMenu)
@@ -75,6 +92,7 @@ export default defineComponent({
       defaultInfo,
       handleNewClick,
       handleEditClick,
+      elTreeRef,
       menuData,
       otherInfo,
       handleCheckChange
