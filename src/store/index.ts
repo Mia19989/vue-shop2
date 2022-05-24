@@ -7,6 +7,9 @@ import login from './login/login'
 import system from './main/system/system'
 import { getPageListData } from '@/service/main/system/system'
 
+// 引入dashboard模块
+import dashboard from './main/analysis/dashboard'
+
 // 创建store对象
 const store = createStore<IRootState>({
   // 数据
@@ -67,7 +70,8 @@ const store = createStore<IRootState>({
   },
   modules: {
     login,
-    system
+    system,
+    dashboard
   }
 })
 
