@@ -2,7 +2,9 @@
   <div class="dashboard">
     <el-row :gutter="10">
       <el-col :span="7">
-        <hcc-card title="分类商品数量(饼图)"></hcc-card>
+        <hcc-card title="分类商品数量(饼图)">
+          <pie-echart :pieData="categoryGoodsCount"></pie-echart>
+        </hcc-card>
       </el-col>
       <el-col :span="10">
         <hcc-card title="不同城市商品销量"></hcc-card>
@@ -14,53 +16,44 @@
 
     <el-row :gutter="10" class="content-row">
       <el-col :span="12">
-        <hcc-card title="分类商品的销量">
-          <base-echart :options="options"></base-echart>
-        </hcc-card>
+        <hcc-card title="分类商品的销量"> </hcc-card>
       </el-col>
-      <el-col :span="12">
-        <hcc-card title="分类商品的收藏"></hcc-card>
-      </el-col>
+      <el-col :span="12"> </el-col>
     </el-row>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { useStore } from '@/store'
 
 import HccCard from '@/base-ui/card'
-import BaseEchart from '@/base-ui/echart'
+import { PieEchart } from '@/components/page-echarts'
 
 export default defineComponent({
   name: 'dashboard',
 
   components: {
     HccCard,
-    BaseEchart
+    PieEchart
   },
 
   setup() {
     const store = useStore()
     store.dispatch('dashboard/getDashboardDataAction')
 
-    const options = {
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          data: [120, 200, 150, 80, 70, 110, 130],
-          type: 'bar'
+    // 饼状图数据 -> 分类商品数量
+    const categoryGoodsCount = computed(() => {
+      return store.state.dashboard.categoryGoodsCount.map((item: any) => {
+        return {
+          name: item.name,
+          value: item.goodsCount
         }
-      ]
-    }
+      })
+    })
+
     return {
-      options
+      categoryGoodsCount
     }
   }
 })

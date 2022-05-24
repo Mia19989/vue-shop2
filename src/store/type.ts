@@ -1,5 +1,6 @@
 import { ILoginState } from './login/type'
 import { ISystemState } from './main/system/types'
+import { IDashboardState } from './main/analysis/types'
 // 规范state类型
 export interface IRootState {
   name: string
@@ -16,6 +17,7 @@ export interface IRootState {
 export interface IRootWithModule {
   login: ILoginState
   system: ISystemState
+  dashboard: IDashboardState
 }
 
 // 自定义store类型
