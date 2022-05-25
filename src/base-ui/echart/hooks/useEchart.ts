@@ -1,6 +1,11 @@
 // 封装echarts
 import * as echarts from 'echarts'
 
+// 引入地图数据
+import ChinaMapData from '../data/china.json'
+
+echarts.registerMap('china', ChinaMapData)
+
 export default function useEchart(el: HTMLElement) {
   const echartInstance = echarts.init(el)
   const setOptions = (options: echarts.EChartsOption) => {

@@ -7,7 +7,9 @@
         </hcc-card>
       </el-col>
       <el-col :span="10">
-        <hcc-card title="不同城市商品销量"></hcc-card>
+        <hcc-card title="不同城市商品销量">
+          <map-echart :mapData="cityGoodsSale"></map-echart>
+        </hcc-card>
       </el-col>
       <el-col :span="7">
         <hcc-card title="分类商品数量(玫瑰图)">
@@ -40,7 +42,8 @@ import {
   PieEchart,
   RoseEchart,
   LineEchart,
-  BarEchart
+  BarEchart,
+  MapEchart
 } from '@/components/page-echarts'
 
 export default defineComponent({
@@ -51,7 +54,8 @@ export default defineComponent({
     PieEchart,
     RoseEchart,
     LineEchart,
-    BarEchart
+    BarEchart,
+    MapEchart
   },
 
   setup() {
@@ -98,10 +102,18 @@ export default defineComponent({
       return { xLabels, values }
     })
 
+    // 地图 -> 不同城市的销量
+    const cityGoodsSale = computed(() => {
+      return store.state.dashboard.cityGoodsSale.map((item) => {
+        return { name: item.address, value: item.count }
+      })
+    })
+
     return {
       categoryGoodsCount,
       categoryGoodsSale,
-      categoryGoodsFavor
+      categoryGoodsFavor,
+      cityGoodsSale
     }
   }
 })
