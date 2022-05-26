@@ -9,9 +9,9 @@
     >
       <!-- header中的插槽 -->
       <template #headerHandler>
-        <el-button type="primary" v-if="isCreate" @click="handleNewClick"
-          >新建用户</el-button
-        >
+        <el-button type="primary" v-if="isCreate" @click="handleNewClick">{{
+          newBtn
+        }}</el-button>
         <!-- <el-button icon="Loading" type="success"></el-button> -->
       </template>
 
@@ -32,6 +32,15 @@
             @click="handleEditClick(scope.row)"
             >编辑</el-button
           >
+          <!-- <el-button
+            v-if="isDelete"
+            size="small"
+            type="danger"
+            icon="Delete"
+            @click="handleDeleteClick(scope.row)"
+            >删除</el-button
+          > -->
+          <!-- 删除 消息弹出框 -> 确认删除操作 -->
           <el-button
             v-if="isDelete"
             size="small"
@@ -63,6 +72,7 @@
 import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
 import { usePermission } from '@/hooks/usePermission'
+import { ElLoading, ElMessage, ElMessageBox } from 'element-plus'
 
 import HccTable from '@/base-ui/table'
 export default defineComponent({
@@ -78,6 +88,10 @@ export default defineComponent({
     pageName: {
       type: String,
       required: true
+    },
+    newBtn: {
+      type: String,
+      default: '新建数据'
     }
   },
 
@@ -149,12 +163,53 @@ export default defineComponent({
     )
 
     // 监听删除事件
-    const handleDeleteClick = (item: any) => {
-      // console.log(item)
-      store.dispatch('system/deletePageListAction', {
-        pageName: props.pageName,
-        id: item.id
-      })
+    const handleDeleteClick = async (item: any) => {
+      const removeRes = await ElMessageBox.confirm(
+        '是否确认删除操作？',
+        '删除数据',
+        {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch((err) => err)
+
+      // 取消删除
+      if (removeRes !== 'confirm') {
+        return ElMessage({
+          type: 'info',
+          message: '取消删除'
+        })
+      }
+
+      // 确认删除 -> 发送删除请求
+      const { code: result } = await store.dispatch(
+        'system/deletePageListAction',
+        {
+          pageName: props.pageName,
+          id: item.id
+        }
+      )
+      if (result === 0) {
+        return ElMessage({
+          type: 'success',
+          message: '删除成功'
+        })
+      } else {
+        return ElMessage({
+          type: 'error',
+          message: '删除失败'
+        })
+      }
+
+      // const { code: result } = await store.dispatch(
+      //   'system/deletePageListAction',
+      //   {
+      //     pageName: props.pageName,
+      //     id: item.id
+      //   }
+      // )
+      // console.log(result)
     }
 
     // 父组件实现具体操作

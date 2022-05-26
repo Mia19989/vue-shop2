@@ -43,7 +43,8 @@ import {
   ElPagination,
   ElImage,
   ElDialog,
-  ElTree
+  ElTree,
+  ElPopover
 } from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'normalize.css'
@@ -89,7 +90,8 @@ const components = [
   ElPagination,
   ElImage,
   ElDialog,
-  ElTree
+  ElTree,
+  ElPopover
 ]
 
 const app = createApp(App)
@@ -102,7 +104,12 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 
-app.config.globalProperties.$message = ElMessage //挂载到app实例上
+// 挂载到app实例上
+// 消息提示
+// app.config.globalProperties.$message = ElMessage
+// 消息弹出框
+// app.config.globalProperties.$confirm = ElMessageBox.confirm
+
 // 定义模块 功能是：ts代码提示
 // declare module '@vue/runtime-core' {
 //   interface ComponentCustomProperties {

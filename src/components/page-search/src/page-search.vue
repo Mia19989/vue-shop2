@@ -12,7 +12,7 @@
           <el-button type="primary" icon="Search" @click="handleQueryClick"
             >搜索</el-button
           >
-          <el-button type="primary" icon="Edit" @click="handleResetClick"
+          <el-button type="primary" icon="Refresh" @click="handleResetClick"
             >重置</el-button
           >
         </div>
@@ -55,10 +55,11 @@ export default defineComponent({
     // 监听点击重置事件
     const handleResetClick = () => {
       // formData中的每个元素 赋初始值
-      // 用 for of 的话 是不是有额外开销了
-      // 先是复制了一下formItems中的每个元素 再去查找操作？
-      for (const item of formItems) {
-        formData.value[item.field] = formOriginData[item.field]
+      // for (const item of formItems) {
+      //   formData.value[item.field] = formOriginData[item.field]
+      // }
+      for (const key in formOriginData) {
+        formData.value[`${key}`] = formOriginData[key]
       }
       emit('resetBtnClick')
     }

@@ -8,6 +8,7 @@ import {
   createPageListData,
   editPageListData
 } from '@/service/main/system/system'
+import { ElMessage } from 'element-plus'
 
 const systemModule: Module<ISystemState, IRootState> = {
   // 作用域！
@@ -145,7 +146,7 @@ const systemModule: Module<ISystemState, IRootState> = {
       // 1. 发送删除数据请求
       // url -> users/id
       const deletePageListResult = await deletePageListData(pageUrl)
-      console.log('删除成功返回的数据: ', deletePageListResult)
+      // console.log('删除成功返回的数据: ', deletePageListResult.code)
 
       // 2. 重新请求数据
       this.dispatch('system/getPageListAction', {
@@ -155,6 +156,9 @@ const systemModule: Module<ISystemState, IRootState> = {
           size: 10
         }
       })
+
+      // 返回一个promise对象
+      return deletePageListResult
     },
 
     // 创建请求
@@ -165,6 +169,16 @@ const systemModule: Module<ISystemState, IRootState> = {
       // 1.发送创建请求
       const createPageListResult = await createPageListData(pageUrl, newData)
       console.log('创建成功返回的数据：', createPageListResult)
+
+      // 弹窗提示创建成功or失败
+      if (createPageListResult.code === 0) {
+        ElMessage({
+          message: '创建成功',
+          type: 'success'
+        })
+      } else {
+        ElMessage.error('创建失败！')
+      }
 
       // 2. 重新请求数据
       this.dispatch('system/getPageListAction', {
@@ -184,6 +198,16 @@ const systemModule: Module<ISystemState, IRootState> = {
       // 1.发送编辑请求
       const editPageListResult = await editPageListData(pageUrl, editData)
       console.log('编辑成功返回的数据：', editPageListResult)
+
+      // 弹窗提示创建成功or失败
+      if (editPageListResult.code === 0) {
+        ElMessage({
+          message: '编辑成功',
+          type: 'success'
+        })
+      } else {
+        ElMessage.error('编辑失败！')
+      }
 
       // 2. 重新请求数据
       this.dispatch('system/getPageListAction', {
