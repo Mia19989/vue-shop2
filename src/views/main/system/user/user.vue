@@ -8,7 +8,7 @@
     <page-content
       :contentTableConfig="contentTableConfig"
       pageName="users"
-      newBtn="新建用户"
+      dataName="用户"
       ref="pageContentRef"
       @newBtnClick="handleNewClick"
       @editBtnClick="handleEditClick"

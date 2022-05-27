@@ -4,7 +4,7 @@
     <page-content
       :contentTableConfig="contentTableConfig"
       pageName="role"
-      newBtn="新建角色"
+      dataName="角色"
       @newBtnClick="handleNewClick"
       @editBtnClick="handleEditClick"
     ></page-content>

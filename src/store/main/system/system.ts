@@ -161,6 +161,34 @@ const systemModule: Module<ISystemState, IRootState> = {
       return deletePageListResult
     },
 
+    // 请求删除多选中的数据
+    async multiSelectDeletePageListAction(context, payload: any) {
+      // 1. 发送请求
+      // ids是被多选中的所有id 是set对象
+      const { pageName, ids } = payload
+
+      // 请求返回的结果集
+      const results = new Set()
+      for (const id of ids) {
+        console.log('对象里的每个id是：', id)
+        const result = await deletePageListData(`${pageName}/${id}`)
+        results.add(result.code)
+      }
+      // console.log('多选删除的返回结果：', results)
+
+      // 2. 重新请求数据
+      this.dispatch('system/getPageListAction', {
+        pageName: pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+
+      // 返回一个promise对象
+      return results
+    },
+
     // 创建请求
     async createPageListAction({ dispatch }, payload: any) {
       const { pageName, newData } = payload
@@ -168,7 +196,7 @@ const systemModule: Module<ISystemState, IRootState> = {
 
       // 1.发送创建请求
       const createPageListResult = await createPageListData(pageUrl, newData)
-      console.log('创建成功返回的数据：', createPageListResult)
+      // console.log('创建成功返回的数据：', createPageListResult)
 
       // 弹窗提示创建成功or失败
       if (createPageListResult.code === 0) {
@@ -197,7 +225,7 @@ const systemModule: Module<ISystemState, IRootState> = {
 
       // 1.发送编辑请求
       const editPageListResult = await editPageListData(pageUrl, editData)
-      console.log('编辑成功返回的数据：', editPageListResult)
+      // console.log('编辑成功返回的数据：', editPageListResult)
 
       // 弹窗提示创建成功or失败
       if (editPageListResult.code === 0) {

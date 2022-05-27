@@ -3,7 +3,7 @@
     <page-content
       :contentTableConfig="contentTableConfig"
       pageName="menu"
-      newBtn="新建菜单"
+      dataName="菜单"
     ></page-content>
   </div>
 </template>
