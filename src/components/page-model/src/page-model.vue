@@ -83,7 +83,7 @@ export default defineComponent({
         })
       } else {
         // 创建新数据请求
-        console.log('新建数据')
+        // console.log('新建数据')
         store.dispatch('system/createPageListAction', {
           pageName: props.pageName,
           newData: { ...formData.value, ...props.otherInfo }
