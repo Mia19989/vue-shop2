@@ -1,12 +1,12 @@
 import { IFormConfig } from '@/base-ui/form'
 export const modelConfig: IFormConfig = {
-  title: '新建用户',
+  title: '新建部门',
   formItems: [
     {
       field: 'name',
       type: 'input',
-      label: '用户名',
-      placeholder: '请输入用户名'
+      label: '部门名称',
+      placeholder: '请输入部门名称'
     },
     {
       field: 'realname',

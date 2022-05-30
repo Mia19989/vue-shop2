@@ -21,4 +21,5 @@ export interface IFormConfig {
   labelWidth?: string
   itemStyle?: any
   colLayout?: any
+  title?: string
 }

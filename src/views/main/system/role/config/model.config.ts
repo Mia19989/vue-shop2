@@ -1,5 +1,6 @@
 import { IFormConfig } from '@/base-ui/form'
 export const modelConfig: IFormConfig = {
+  title: '新建角色',
   formItems: [
     {
       field: 'name',

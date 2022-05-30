@@ -1,5 +1,6 @@
 import { IFormConfig } from '@/base-ui/form'
 export const modelConfig: IFormConfig = {
+  title: '新建菜单',
   formItems: [
     {
       field: 'name',

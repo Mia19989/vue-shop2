@@ -30,7 +30,11 @@ const systemModule: Module<ISystemState, IRootState> = {
       // 菜单列表
       menuList: [],
       // 菜单数量
-      menuCount: 0
+      menuCount: 0,
+      // 部门列表
+      departmentList: [],
+      // 部门数量
+      departmentCount: 0
     }
   },
   mutations: {
@@ -65,6 +69,14 @@ const systemModule: Module<ISystemState, IRootState> = {
 
     changeMenuCount(state, count: number) {
       state.menuCount = count
+    },
+
+    changeDepartmentList(state, list: any[]) {
+      state.departmentList = list
+    },
+
+    changeDepartmentCount(state, count: number) {
+      state.departmentCount = count
     }
   },
 
