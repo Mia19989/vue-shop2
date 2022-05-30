@@ -79,13 +79,14 @@ class HCCRequest {
         if (data.returnCode === '-1001') {
           console.log('请求失败~')
         } else {
+          // console.log(data.returnCode, data)
           return data
         }
       },
       (error) => {
         console.log('全局响应失败的拦截')
         // 后续 element message组件
-        if (error.response.status === 404) {
+        if (error.response.status === '404') {
           console.log('提示404错误')
         }
         return error

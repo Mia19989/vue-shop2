@@ -66,7 +66,7 @@ export default defineComponent({
 
     // 监听点击搜索事件
     const handleQueryClick = () => {
-      console.log('点击了搜索')
+      console.log('点击了搜索：', formData.value)
       // formData中元素 作为请求参数
       emit('queryBtnClick', formData.value)
     }

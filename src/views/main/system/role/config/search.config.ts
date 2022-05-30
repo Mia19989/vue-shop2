@@ -5,8 +5,8 @@ export const searchFromConfig: IFormConfig = {
     {
       field: 'name',
       type: 'input',
-      label: '用户名',
-      placeholder: '请填写用户名'
+      label: '角色名称',
+      placeholder: '请填写角色名称'
     },
     {
       field: 'intro',

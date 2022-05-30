@@ -11,5 +11,10 @@ if (process.env.NODE_ENV === 'development') {
   BASE_URL = 'http://hcc.org/test'
 }
 
-// 导出
+// // 导出
 export { BASE_URL, TIME_OUT }
+
+// 3.区分环境变量方式三: 加载.env文件
+// export const API_BASE_URL = process.env.VUE_APP_BASE_URL
+
+// export const TIME_OUT = 1000

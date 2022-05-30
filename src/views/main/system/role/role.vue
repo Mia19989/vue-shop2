@@ -1,10 +1,15 @@
 <template>
   <div class="role">
-    <page-search :searchFromConfig="searchFromConfig"></page-search>
+    <page-search
+      :searchFromConfig="searchFromConfig"
+      @queryBtnClick="handleQueryClick"
+      @resetBtnClick="handleResetClick"
+    ></page-search>
     <page-content
       :contentTableConfig="contentTableConfig"
       pageName="role"
       dataName="角色"
+      ref="pageContentRef"
       @newBtnClick="handleNewClick"
       @editBtnClick="handleEditClick"
     ></page-content>
@@ -42,6 +47,7 @@ import { modelConfig } from './config/model.config'
 import { ElTree } from 'element-plus'
 
 import { usePageModel } from '@/hooks/usePageModel'
+import { usePageSearch } from '@/hooks/usePageSearch'
 import { mapMenuLeafKeys } from '@/utils/map-menus'
 
 import { useStore } from '@/store'
@@ -55,6 +61,7 @@ export default defineComponent({
   },
 
   setup() {
+    const [pageContentRef, handleQueryClick, handleResetClick] = usePageSearch()
     // el-tree设置ref属性
     const elTreeRef = ref<InstanceType<typeof ElTree>>()
 
@@ -96,6 +103,9 @@ export default defineComponent({
       elTreeRef,
       menuData,
       otherInfo,
+      pageContentRef,
+      handleQueryClick,
+      handleResetClick,
       handleCheckChange
     }
   }

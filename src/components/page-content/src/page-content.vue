@@ -124,7 +124,7 @@ export default defineComponent({
     const multiSelectData = new Set()
 
     // page-search (中间组价调用) page-content
-    const getPageData = (queryInfo: any = {}) => {
+    const getPageData = (otherInfo: any = {}) => {
       // 没有请求的权限 直接返回
       if (!isQuery) return
       // 发送请求
@@ -134,7 +134,7 @@ export default defineComponent({
         queryInfo: {
           offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
           size: pageInfo.value.pageSize,
-          ...queryInfo
+          ...otherInfo
         }
       })
     }
