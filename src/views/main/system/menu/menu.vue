@@ -10,8 +10,15 @@
       ref="pageContentRef"
       pageName="menu"
       dataName="菜单"
+      @newBtnClick="handleNewClick"
+      @editBtnClick="handleEditClick"
     ></page-content>
-    <page-model></page-model>
+    <page-model
+      ref="pageModelRef"
+      :modelConfig="modelConfig"
+      pageName="menu"
+      :defaultInfo="defaultInfo"
+    ></page-model>
   </div>
 </template>
 
@@ -23,8 +30,10 @@ import PageModel from '@/components/page-model'
 
 import { contentTableConfig } from './config/content.config'
 import { searchFromConfig } from './config/search.config'
+import { modelConfig } from './config/model.config'
 
 import { usePageSearch } from '@/hooks/usePageSearch'
+import { usePageModel } from '@/hooks/usePageModel'
 
 export default defineComponent({
   name: 'hcc-menu',
@@ -36,12 +45,21 @@ export default defineComponent({
   setup() {
     // page-search中 搜索 重置
     const [pageContentRef, handleQueryClick, handleResetClick] = usePageSearch()
+
+    const [pageModelRef, defaultInfo, handleNewClick, handleEditClick] =
+      usePageModel()
+
     return {
       contentTableConfig,
       searchFromConfig,
+      modelConfig,
       pageContentRef,
       handleQueryClick,
-      handleResetClick
+      handleResetClick,
+      pageModelRef,
+      defaultInfo,
+      handleNewClick,
+      handleEditClick
     }
   }
 })

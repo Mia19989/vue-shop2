@@ -11,7 +11,8 @@ export const modelConfig: IFormConfig = {
       field: 'realname',
       type: 'input',
       label: '真实姓名',
-      placeholder: '请输入真实姓名'
+      placeholder: '请输入真实姓名',
+      rules: [{ required: true }]
     },
     {
       field: 'password',
