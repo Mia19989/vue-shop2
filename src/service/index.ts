@@ -7,6 +7,7 @@ import localCache from '@/utils/cache'
 // 实例对象
 const hccRequest = new HCCRequest({
   baseURL: BASE_URL,
+  // baseURL: 'http://152.136.185.210:5000',
   timeout: TIME_OUT,
 
   // 拦截器

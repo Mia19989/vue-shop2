@@ -6,40 +6,21 @@ export const modelConfig: IFormConfig = {
       field: 'name',
       type: 'input',
       label: '部门名称',
-      placeholder: '请输入部门名称'
-    },
-    {
-      field: 'realname',
-      type: 'input',
-      label: '真实姓名',
-      placeholder: '请输入真实姓名',
+      placeholder: '请输入部门名称',
       rules: [{ required: true }]
     },
     {
-      field: 'password',
-      type: 'password',
-      label: '密码',
-      placeholder: '请输入密码',
-      isHidden: false
-    },
-    {
-      field: 'cellphone',
+      field: 'leader',
       type: 'input',
-      label: '电话号码',
-      placeholder: '请输入电话号码'
+      label: '部门领导',
+      placeholder: '请输入部门领导',
+      rules: [{ required: true }]
     },
     {
-      field: 'departmentId',
+      field: 'parentId',
       type: 'select',
-      label: '选择部门',
-      placeholder: '请选择部门',
-      options: []
-    },
-    {
-      field: 'roleId',
-      type: 'select',
-      label: '选择角色',
-      placeholder: '请选择角色',
+      label: '上级部门',
+      placeholder: '请选择上级部门',
       options: []
     }
   ],
