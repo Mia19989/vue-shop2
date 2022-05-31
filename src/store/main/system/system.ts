@@ -37,7 +37,10 @@ const systemModule: Module<ISystemState, IRootState> = {
       departmentCount: 0,
       // 商品类别列表 数量
       categoryList: [],
-      categoryCount: 0
+      categoryCount: 0,
+      // 故事列表 数量
+      storyList: [],
+      storyCount: 0
     }
   },
   mutations: {
@@ -88,6 +91,14 @@ const systemModule: Module<ISystemState, IRootState> = {
 
     changeCategoryCount(state, count: number) {
       state.categoryCount = count
+    },
+
+    changeStoryList(state, list: any[]) {
+      state.storyList = list
+    },
+
+    changeStoryCount(state, count: number) {
+      state.storyCount = count
     }
   },
 
