@@ -16,7 +16,6 @@
     <page-model
       ref="pageModelRef"
       :modelConfig="modelConfigRef"
-      :defaultInfo="defaultInfo"
       pageName="department"
     ></page-model>
   </div>
@@ -50,8 +49,7 @@ export default defineComponent({
     const store = useStore()
 
     const [pageContentRef, handleQueryClick, handleResetClick] = usePageSearch()
-    const [pageModelRef, handleNewClick, handleEditClick, defaultInfo] =
-      usePageModel()
+    const [pageModelRef, handleNewClick, handleEditClick] = usePageModel()
 
     const modelConfigRef = computed(() => {
       const parentIdItem = modelConfig.formItems?.find(
@@ -72,8 +70,7 @@ export default defineComponent({
       handleResetClick,
       pageModelRef,
       handleNewClick,
-      handleEditClick,
-      defaultInfo
+      handleEditClick
     }
   }
 })

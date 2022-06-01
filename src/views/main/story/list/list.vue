@@ -2,7 +2,7 @@
   <div class="list">
     <page-content
       :contentTableConfig="contentTableConfig"
-      :pageName="story"
+      pageName="story"
     ></page-content>
   </div>
 </template>

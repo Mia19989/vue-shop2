@@ -44,7 +44,10 @@ import {
   ElImage,
   ElDialog,
   ElTree,
-  ElPopover
+  ElPopover,
+  ElTag,
+  ElDescriptions,
+  ElDescriptionsItem
 } from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'normalize.css'
@@ -91,7 +94,10 @@ const components = [
   ElImage,
   ElDialog,
   ElTree,
-  ElPopover
+  ElPopover,
+  ElTag,
+  ElDescriptions,
+  ElDescriptionsItem
 ]
 
 const app = createApp(App)
